@@ -78,6 +78,14 @@ namespace TRRunner
                 isOnGround = false;
             }
         }
+
+        void checkDead()
+        {
+            if (transform.position.x < -9.15f || transform.position.y < - 5.35f)
+            {
+                Debug.Log("GameOver");
+            }
+        }
     }
 
 }
