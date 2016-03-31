@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 namespace TRRunner
 {
-    public class GameManager : MonoBehaviour
+    public class Ground : MonoBehaviour
     {
-        public float gameSpeed;
+
+        private GameManager GM;
+
         // Use this for initialization
         void Start()
         {
-            gameSpeed = 1;
+            GM = Camera.main.transform.GetComponent<GameManager>();
         }
 
         // Update is called once per frame
         void Update()
         {
             Vector2 pos = transform.position;
-            pos.x -= gameSpeed * Time.deltaTime;
+            pos.x -= GM.gameSpeed * Time.deltaTime * 2;
+            transform.position = pos;
         }
     }
+
 }
