@@ -16,6 +16,10 @@ namespace TRRunner
         {
             Vector2 pos = transform.position;
             pos.x -= GM.gameSpeed * Time.deltaTime * 2;
+            if (pos.x < -15)
+            {
+                pos.x = 15;
+            }
             transform.position = pos;
         }
     }
