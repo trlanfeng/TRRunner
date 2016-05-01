@@ -34,7 +34,7 @@ namespace TRRunner
             initManager();
             initScreenView();
             regScreenView();
-            layer.BeginNavTo("logo", null);
+            layer.BeginNavTo("Game", null);
         }
 
         void initManager()
@@ -56,6 +56,7 @@ namespace TRRunner
         {
             layer.RegScreen(new ScreenView_0Logo());
             layer.RegScreen(new ScreenView_1StartMenu());
+            layer.RegScreen(new ScreenView_2Game());
         }
 
         void Update()

@@ -29,7 +29,7 @@ class ScreenView_0Logo : FB.ScreenView.IScreenView
     /// </summary>
     public string name
     {
-        get { return "logo"; }
+        get { return "Logo"; }
     }
     /// <summary>
     /// 资源加载后isload=true，卸载后=false
@@ -87,7 +87,7 @@ class ScreenView_0Logo : FB.ScreenView.IScreenView
 
     public void UpdateTask(float delta)
     {
-        Debug.Log("task!");
+        Debug.Log("Logo!");
     }
 }
 

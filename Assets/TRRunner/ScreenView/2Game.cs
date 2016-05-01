@@ -22,14 +22,14 @@ using UnityEngine.UI;
 //Update为通常更新所用，完成内部动画之类的
 //UpdateTask 在BeginInit BeginExit 等导航任务期间内被调用
 //完成异步导航任务
-class ScreenView_1StartMenu : FB.ScreenView.IScreenView
+class ScreenView_2Game : FB.ScreenView.IScreenView
 {
     /// <summary>
     /// 返回ScreenView的名字，会用这个名字进行注册和导航，别乱取
     /// </summary>
     public string name
     {
-        get { return "StartMenu"; }
+        get { return "Game"; }
     }
     /// <summary>
     /// 资源加载后isload=true，卸载后=false
@@ -56,21 +56,21 @@ class ScreenView_1StartMenu : FB.ScreenView.IScreenView
     }
 
     Transform canvas;
-    StartMenu startMenu;
+    Game game;
 
     public void BeginInit(Action<Exception> onInit, FB.ScreenView.ScreenViewLayer layer)
     {
         canvas = GameObject.Find("Canvas").transform;
-        startMenu = new StartMenu(canvas, layer);
-        startMenu.Start();
+        game = new Game(canvas, layer);
+        game.Start();
         isLoad = true;
         onInit(null);
     }
 
     public void BeginExit(Action<Exception> onExit)
     {
-        startMenu.Destroy();
-        startMenu = null;
+        game.Destroy();
+        game = null;
         Destory();
         onExit(null);
     }
@@ -87,51 +87,30 @@ class ScreenView_1StartMenu : FB.ScreenView.IScreenView
 
     public void UpdateTask(float delta)
     {
-        Debug.Log("StartMenu!");
+        Debug.Log("Game!");
     }
 }
 
-class StartMenu
+class Game
 {
     FB.ScreenView.ScreenViewLayer layer;
     Transform canvas;
-    public StartMenu(Transform canvas, FB.ScreenView.ScreenViewLayer layer)
+    public Game(Transform canvas, FB.ScreenView.ScreenViewLayer layer)
     {
         this.canvas = canvas;
         this.layer = layer;
     }
-    GameObject start;
+    GameObject game;
     public void Start()
     {
-        start = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/UI/Start"), Vector3.zero, Quaternion.identity) as GameObject;
-        start.transform.SetParent(canvas, false);
-        Button button_Start = start.transform.Find("Panel_Menu/Button_Start").GetComponent<Button>();
-        Button button_Achievement = start.transform.Find("Panel_Menu/Button_Achievement").GetComponent<Button>();
-        Button button_Settings = start.transform.Find("Panel_Menu/Button_Settings").GetComponent<Button>();
-        Button button_Exit = start.transform.Find("Panel_Menu/Button_Exit").GetComponent<Button>();
-        button_Start.onClick.AddListener(() => { startGame(); });
-        button_Achievement.onClick.AddListener(() => { showAchievement(); });
-        button_Settings.onClick.AddListener(() => { showSettings(); });
-        button_Exit.onClick.AddListener(() => { exitGame(); });
-    }
-    void startGame()
-    {
-        layer.BeginNavTo("Game", null);
-    }
-    void showAchievement()
-    {
 
-    }
-    void showSettings()
-    {
-
-    }
-    void exitGame()
-    {
-        Application.Quit();
     }
     public void Destroy()
     {
-        GameObject.Destroy(start);
+    }
+
+    void initBackground()
+    {
+
     }
 }
