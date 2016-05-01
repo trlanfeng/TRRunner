@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BGManager : MonoBehaviour
+public class BackgroundManager : MonoBehaviour
 {
     //需要视差滚动的背景列表
     public Transform[] backgrounds;
