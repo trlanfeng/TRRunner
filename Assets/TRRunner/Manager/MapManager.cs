@@ -12,10 +12,17 @@ namespace TRRunner
         void Start()
         {
             mapSpeed = 1f;
+            initMap();
         }
         void Update()
         {
 
+        }
+
+        void initMap()
+        {
+            GameObject ground = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Map/ground"));
+            
         }
     }
 }

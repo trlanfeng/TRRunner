@@ -101,12 +101,19 @@ class Game
         this.layer = layer;
     }
     GameObject game;
+    TRRunner.Manager manager;
     public void Start()
     {
-
+        GameObject m = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Manager"), Vector3.zero, Quaternion.identity) as GameObject;
+        manager = m.GetComponent<TRRunner.Manager>();
     }
     public void Destroy()
     {
+    }
+
+    void loadLevel()
+    {
+
     }
 
     void initBackground()

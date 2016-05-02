@@ -6,7 +6,7 @@ namespace TRRunner
 {
     public class Navigator : MonoBehaviour
     {
-
+        public string layerName;
         public static Navigator instance = null;
         static FB.ScreenView.ScreenViewCenter screenViewCenter;
         public static FB.ScreenView.ScreenViewLayer layer;
@@ -28,7 +28,7 @@ namespace TRRunner
         {
             initScreenView();
             regScreenView();
-            layer.BeginNavTo("Game", null);
+            layer.BeginNavTo(layerName, null);
         }
 
         void initScreenView()
