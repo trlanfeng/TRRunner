@@ -46,6 +46,7 @@ namespace TRRunner
             if (Input.GetAxis("Fire1") != 0 && isOnGround && isCoolDown)
             {
                 R2D.AddForce(Vector2.up * JumpForce);
+                transform.GetComponent<AudioSource>().Play();
                 coolDownTimer = 0;
             }
         }

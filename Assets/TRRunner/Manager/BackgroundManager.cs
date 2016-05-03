@@ -22,7 +22,6 @@ public class BackgroundManager : MonoBehaviour
         }
         if (backgrounds.Length == 0)
         {
-            Debug.LogError("没有找到背景，请检查！");
             return;
         }
         for (int i = 0; i < backgrounds.Length; i++)

@@ -8,11 +8,15 @@ public class Sprite2DEditor : Editor
     {
         Sprite2D sprite2D = (Sprite2D)target;
         base.OnInspectorGUI();
-        //EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("ReSize"))
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("ResizeToSet"))
         {
-            sprite2D.setSize();
+            sprite2D.resizeToSet();
         }
-        //EditorGUILayout.EndHorizontal();
+        if (GUILayout.Button("ResizeToOriginal"))
+        {
+            sprite2D.resizeToOriginal();
+        }
+        EditorGUILayout.EndHorizontal();
     }
 }

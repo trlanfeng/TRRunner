@@ -6,16 +6,19 @@ public class Sprite2D : MonoBehaviour
 {
     SpriteRenderer SR;
     public Vector2 originalSize;
-    public Vector2 realSize;
+    public Vector2 showSize;
     public float Up;
     public float Down;
     public float Left;
     public float Right;
     public Vector2 size;
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         SR = GetComponent<SpriteRenderer>();
+        getSpriteSize();
+        getSpriteCorner();
     }
 
     // Update is called once per frame
@@ -25,27 +28,27 @@ public class Sprite2D : MonoBehaviour
         getSpriteCorner();
     }
 
-    void getSpriteSize()
+    public void getSpriteSize()
     {
         float x = SR.sprite.bounds.size.x * 100;
         float y = SR.sprite.bounds.size.y * 100;
         originalSize = new Vector2(x, y);
         float rx = SR.bounds.size.x * 100;
         float ry = SR.bounds.size.y * 100;
-        realSize = new Vector2(rx, ry);
+        showSize = new Vector2(rx, ry);
     }
 
-    void getSpriteCorner()
+    public void getSpriteCorner()
     {
         float w = SR.sprite.pivot.x;
         float h = SR.sprite.pivot.y;
-        Up = (transform.position.y + h * 0.01f) * transform.localScale.y;
-        Down = (transform.position.y - h * 0.01f) * transform.localScale.y;
-        Left = (transform.position.x - w * 0.01f) * transform.localScale.x;
-        Right = (transform.position.x + w * 0.01f) * transform.localScale.y;
+        Up = SR.bounds.size.y / 2f + transform.localPosition.y;
+        Down = SR.bounds.size.y / 2f - transform.localPosition.y;
+        Left = SR.bounds.size.x / 2f - transform.localPosition.x;
+        Right = SR.bounds.size.x / 2f + transform.localPosition.x;
     }
 
-    public void setSize()
+    public void resizeToSet()
     {
         if (size.x > 0 && size.y > 0)
         {
@@ -53,5 +56,10 @@ public class Sprite2D : MonoBehaviour
             float sy = size.y / originalSize.y;
             transform.localScale = new Vector3(sx, sy, 1);
         }
+    }
+
+    public void resizeToOriginal()
+    {
+        transform.localScale = Vector3.one;
     }
 }
