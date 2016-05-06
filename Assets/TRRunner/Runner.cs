@@ -23,6 +23,25 @@ namespace TRRunner
         /// 是否仅可以在地面时跳跃
         /// </summary>
         public bool JustCanJumpOnGround = true;
+        /// <summary>
+        /// 动画控制器
+        /// </summary>
+        public Animator animator;
+        /// <summary>
+        /// 已跳跃次数
+        /// </summary>
+        public int jumpTimes = 0;
+        /// <summary>
+        /// 角色状态，跑步、跳起、降落、二段跳
+        /// </summary>
+        public enum PlayerState
+        {
+            Run,
+            JumpUp,
+            JumpTwice,
+            JumpDown
+        }
+        public PlayerState playerState = PlayerState.Run;
 
         public bool isOnGround = false;
         public bool isCoolDown = false;
@@ -33,21 +52,46 @@ namespace TRRunner
         void Start()
         {
             R2D = this.transform.GetComponent<Rigidbody2D>();
+            animator = this.transform.GetComponent<Animator>();
         }
 
         void Update()
         {
+            stateCheck();
             checkCoolDown();
             Jump();
         }
 
+        void stateCheck()
+        {
+            if (R2D.velocity.y < 0)
+            {
+                playerState = PlayerState.JumpDown;
+            }
+            animator.SetInteger("jumpState", (int)playerState);
+        }
+
         void Jump()
         {
-            if (Input.GetAxis("Fire1") != 0 && isOnGround && isCoolDown)
+            if (Input.GetMouseButtonDown(0) && isOnGround)
             {
+                Debug.Log("111");
+                playerState = PlayerState.JumpUp;
                 R2D.AddForce(Vector2.up * JumpForce);
                 transform.GetComponent<AudioSource>().Play();
                 coolDownTimer = 0;
+                jumpTimes++;
+                return;
+            }
+            else if (Input.GetMouseButtonDown(0) && jumpTimes < 2)
+            {
+                Debug.Log("222");
+                playerState = PlayerState.JumpTwice;
+                R2D.velocity = Vector3.zero;
+                R2D.AddForce(Vector2.up * JumpForce);
+                transform.GetComponent<AudioSource>().Play();
+                jumpTimes++;
+                return;
             }
         }
 
@@ -68,7 +112,9 @@ namespace TRRunner
         {
             if (collision.gameObject.CompareTag("Ground"))
             {
+                playerState = PlayerState.Run;
                 isOnGround = true;
+                jumpTimes = 0;
             }
         }
 
@@ -82,7 +128,7 @@ namespace TRRunner
 
         void checkDead()
         {
-            if (transform.position.x < -9.15f || transform.position.y < - 5.35f)
+            if (transform.position.x < -9.15f || transform.position.y < -5.35f)
             {
                 Debug.Log("GameOver");
             }
