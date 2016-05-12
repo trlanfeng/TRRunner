@@ -22,7 +22,7 @@ public class Background : MonoBehaviour
     void Update()
     {
         Vector2 offset = mat.mainTextureOffset;
-        offset.x += Time.deltaTime * moveSpeed * 0.2f;
+        offset.x += Time.deltaTime * moveSpeed * 0.02f;
         mat.mainTextureOffset = offset;
         MR.material = new Material(mat);
     }

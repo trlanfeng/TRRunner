@@ -68,6 +68,10 @@ namespace TRRunner
             {
                 playerState = PlayerState.JumpDown;
             }
+            else if (R2D.velocity.y == 0)
+            {
+                //playerState = PlayerState.Run;
+            }
             animator.SetInteger("jumpState", (int)playerState);
         }
 
@@ -75,7 +79,6 @@ namespace TRRunner
         {
             if (Input.GetMouseButtonDown(0) && isOnGround)
             {
-                Debug.Log("111");
                 playerState = PlayerState.JumpUp;
                 R2D.AddForce(Vector2.up * JumpForce);
                 transform.GetComponent<AudioSource>().Play();
@@ -85,7 +88,6 @@ namespace TRRunner
             }
             else if (Input.GetMouseButtonDown(0) && jumpTimes < 2)
             {
-                Debug.Log("222");
                 playerState = PlayerState.JumpTwice;
                 R2D.velocity = Vector3.zero;
                 R2D.AddForce(Vector2.up * JumpForce);
@@ -112,6 +114,7 @@ namespace TRRunner
         {
             if (collision.gameObject.CompareTag("Ground"))
             {
+                R2D.velocity = Vector2.zero;
                 playerState = PlayerState.Run;
                 isOnGround = true;
                 jumpTimes = 0;

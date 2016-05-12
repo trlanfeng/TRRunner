@@ -14,7 +14,7 @@ public class Sprite2D : MonoBehaviour
     public Vector2 size;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
         SR = GetComponent<SpriteRenderer>();
         getSpriteSize();
@@ -30,6 +30,10 @@ public class Sprite2D : MonoBehaviour
 
     public void getSpriteSize()
     {
+        if (SR == null)
+        {
+            return;
+        }
         float x = SR.sprite.bounds.size.x * 100;
         float y = SR.sprite.bounds.size.y * 100;
         originalSize = new Vector2(x, y);
@@ -40,6 +44,10 @@ public class Sprite2D : MonoBehaviour
 
     public void getSpriteCorner()
     {
+        if (SR == null)
+        {
+            return;
+        }
         float w = SR.sprite.pivot.x;
         float h = SR.sprite.pivot.y;
         Up = SR.bounds.size.y / 2f + transform.localPosition.y;
