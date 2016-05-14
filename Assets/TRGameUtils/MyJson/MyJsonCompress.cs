@@ -48,7 +48,7 @@ public class MyJsonBinary
         System.IO.MemoryStream ms = new System.IO.MemoryStream();
         PackJson(ms, node, pubdict, localdict, riseDictByKey, riseDictByString);
         byte[] data = ms.ToArray();
-        ms.Close();
+        //ms.Close();
         WriteStrDict(stream, localdict);
         stream.Write(data, 0, data.Length);
     }
