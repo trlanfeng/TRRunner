@@ -7,3 +7,5 @@
 *.unityproj
 *.sln
 /.vs
+/Assets/WSATestCertificate.pfx
+/Assets/WSATestCertificate.pfx.meta
