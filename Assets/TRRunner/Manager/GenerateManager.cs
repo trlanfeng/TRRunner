@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace TRRunner
 {
-    public class CloudManager : MonoBehaviour
+    public class GenerateManager : MonoBehaviour
     {
-        public List<Transform> clouds;
-        private Transform cloudPool;
+        public List<Transform> objs;
+        private Transform objPool;
 
         public float moveSpeed;
         public float startX;
@@ -20,21 +20,21 @@ namespace TRRunner
 
         void Start()
         {
-            cloudPool = GameObject.Find("cloudPool").transform;
+            objPool = transform;
         }
         void Update()
         {
             float moveDelta = moveSpeed * Time.deltaTime;
-            if (clouds.Count == 0)
+            if (objs.Count == 0)
             {
                 return;
             }
             timer += Time.deltaTime;
             if (timer > generateTimer)
             {
-                generateCloud();
+                generateobj();
             }
-            foreach (Transform item in cloudPool)
+            foreach (Transform item in objPool)
             {
                 Vector3 t = item.position;
                 t.x -= moveDelta;
@@ -49,11 +49,11 @@ namespace TRRunner
             }
         }
 
-        void generateCloud()
+        void generateobj()
         {
-            GameObject cloud = Instantiate<GameObject>(clouds[Random.Range(0, clouds.Count)].gameObject);
-            setCloudPosition(cloud.transform);
-            cloud.transform.SetParent(cloudPool.transform, false);
+            GameObject obj = Instantiate<GameObject>(objs[Random.Range(0, objs.Count)].gameObject);
+            setobjPosition(obj.transform);
+            obj.transform.SetParent(objPool.transform, false);
             generateTimer = Random.Range(timerRange.x, timerRange.y);
             timer = 0;
 
@@ -65,7 +65,7 @@ namespace TRRunner
             return y;
         }
 
-        void setCloudPosition(Transform trans)
+        void setobjPosition(Transform trans)
         {
             Vector3 t = trans.position;
             t.x = startX;
