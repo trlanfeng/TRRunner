@@ -12,9 +12,9 @@ namespace TRRunner
         void Update()
         {
             transform.position += Vector3.left * Time.deltaTime * speed;
-            if (transform.position.x < -20.48f)
+            if (transform.position.x < -width)
             {
-                transform.position += new Vector3(20.48f * 2, 0, 0);
+                transform.position += new Vector3(width * 2, 0, 0);
             }
         }
     }

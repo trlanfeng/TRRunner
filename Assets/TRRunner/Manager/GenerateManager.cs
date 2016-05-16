@@ -23,6 +23,7 @@ namespace TRRunner
         {
             objList = transform;
             objPool = new GameObject(transform.name + "Pool").transform;
+            objPool.gameObject.SetActive(false);
         }
         void Update()
         {
