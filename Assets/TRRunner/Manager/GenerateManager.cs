@@ -7,7 +7,8 @@ namespace TRRunner
     public class GenerateManager : MonoBehaviour
     {
         public List<Transform> objs;
-        private Transform objPool;
+        private Transform objList;
+        Transform objPool;
 
         public float moveSpeed;
         public float startX;
@@ -20,43 +21,55 @@ namespace TRRunner
 
         void Start()
         {
-            objPool = transform;
+            objList = transform;
+            objPool = new GameObject(transform.name + "Pool").transform;
         }
         void Update()
         {
-            float moveDelta = moveSpeed * Time.deltaTime;
             if (objs.Count == 0)
             {
                 return;
             }
+            float moveDelta = moveSpeed * Time.deltaTime;
             timer += Time.deltaTime;
             if (timer > generateTimer)
             {
                 generateobj();
             }
-            foreach (Transform item in objPool)
+            for (int i = 0; i < objList.childCount; i++)
             {
-                Vector3 t = item.position;
+                Vector3 t = objList.GetChild(i).position;
                 t.x -= moveDelta;
                 if (t.x < dieX)
                 {
-                    item.gameObject.SetActive(false);
+                    objList.GetChild(i).SetParent(objPool, false);
                 }
                 else
                 {
-                    item.position = t;
+                    objList.GetChild(i).position = t;
                 }
             }
         }
 
         void generateobj()
         {
-            GameObject obj = Instantiate<GameObject>(objs[Random.Range(0, objs.Count)].gameObject);
-            setobjPosition(obj.transform);
-            obj.transform.SetParent(objPool.transform, false);
+            Transform objTrans = null;
+            if (objPool.childCount > 0)
+            {
+                objTrans = objPool.GetChild(Random.Range(0, objPool.childCount - 1));
+            }
+            else
+            {
+                objTrans = Instantiate<GameObject>(objs[Random.Range(0, objs.Count)].gameObject).transform;
+            }
+            if (objTrans == null)
+            {
+                return;
+            }
+            setobjPosition(objTrans);
+            objTrans.SetParent(objList.transform, false);
             generateTimer = Random.Range(timerRange.x, timerRange.y);
             timer = 0;
-
         }
 
         float rangeY()

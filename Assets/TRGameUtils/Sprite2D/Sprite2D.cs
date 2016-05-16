@@ -48,8 +48,6 @@ public class Sprite2D : MonoBehaviour
         {
             return;
         }
-        float w = SR.sprite.pivot.x;
-        float h = SR.sprite.pivot.y;
         Up = SR.bounds.size.y / 2f + transform.localPosition.y;
         Down = SR.bounds.size.y / 2f - transform.localPosition.y;
         Left = SR.bounds.size.x / 2f - transform.localPosition.x;
