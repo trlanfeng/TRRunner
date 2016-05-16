@@ -84,6 +84,7 @@ namespace TRRunner
             Vector3 t = trans.position;
             t.x = startX;
             t.y = rangeY();
+            t.z = Random.Range(0f, 1f);
             trans.position = t;
         }
     }
