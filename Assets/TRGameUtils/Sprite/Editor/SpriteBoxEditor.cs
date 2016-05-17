@@ -1,21 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
-[CustomEditor(typeof(Sprite2D))]
-public class Sprite2DEditor : Editor
+﻿using UnityEditor;
+using UnityEngine;
+[CustomEditor(typeof(SpriteBox))]
+public class SpriteBoxEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        Sprite2D sprite2D = (Sprite2D)target;
+        SpriteBox sbox = (SpriteBox)target;
         base.OnInspectorGUI();
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("ResizeToSet"))
         {
-            sprite2D.resizeToSet();
+            sbox.resizeToSet();
         }
         if (GUILayout.Button("ResizeToOriginal"))
         {
-            sprite2D.resizeToOriginal();
+            sbox.resizeToOriginal();
         }
         EditorGUILayout.EndHorizontal();
     }

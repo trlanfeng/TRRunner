@@ -52,7 +52,7 @@ namespace TRRunner
         void Start()
         {
             R2D = this.transform.GetComponent<Rigidbody2D>();
-            animator = this.transform.GetComponent<Animator>();
+            //animator = this.transform.GetComponent<Animator>();
         }
 
         void Update()
@@ -72,7 +72,7 @@ namespace TRRunner
             {
                 //playerState = PlayerState.Run;
             }
-            animator.SetInteger("jumpState", (int)playerState);
+            //animator.SetInteger("jumpState", (int)playerState);
         }
 
         void Jump()

@@ -2,7 +2,7 @@
 using System.Collections;
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer))]
-public class Sprite2D : MonoBehaviour
+public class SpriteBox : MonoBehaviour
 {
     SpriteRenderer SR;
     public Vector2 originalSize;
