@@ -36,10 +36,10 @@ namespace TRRunner
         /// </summary>
         public enum PlayerState
         {
-            Run,
-            JumpUp,
+            JumpDown,
             JumpTwice,
-            JumpDown
+            JumpUp,
+            Run
         }
         public PlayerState playerState = PlayerState.Run;
 
@@ -48,11 +48,13 @@ namespace TRRunner
         public float coolDownTimer = 0;
 
         private Rigidbody2D R2D;
+        private SpriteFrames SF;
 
         void Start()
         {
             R2D = this.transform.GetComponent<Rigidbody2D>();
             //animator = this.transform.GetComponent<Animator>();
+            SF = GetComponent<SpriteFrames>();
         }
 
         void Update()
@@ -73,11 +75,12 @@ namespace TRRunner
                 //playerState = PlayerState.Run;
             }
             //animator.SetInteger("jumpState", (int)playerState);
+            SF.curClip = (int)playerState;
         }
 
         void Jump()
         {
-            if (Input.GetMouseButtonDown(0) && isOnGround)
+            if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isOnGround)
             {
                 playerState = PlayerState.JumpUp;
                 R2D.AddForce(Vector2.up * JumpForce);
@@ -86,7 +89,7 @@ namespace TRRunner
                 jumpTimes++;
                 return;
             }
-            else if (Input.GetMouseButtonDown(0) && jumpTimes < 2)
+            else if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && jumpTimes < 2)
             {
                 playerState = PlayerState.JumpTwice;
                 R2D.velocity = Vector3.zero;
