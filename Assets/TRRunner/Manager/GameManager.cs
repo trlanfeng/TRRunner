@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour
     {
         if (type == 1)
         {
-            Panel_Success.DOFade(1, 1f).SetEase(Ease.OutElastic);
-            Panel_Success.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic);
+            Panel_Success.DOFade(1, 1f).SetEase(Ease.OutElastic).SetUpdate(true);
+            Panel_Success.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic).SetUpdate(true);
         }
         else if (type == -1)
         {
-            Panel_Faild.DOFade(1, 1f).SetEase(Ease.OutElastic);
-            Panel_Faild.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic);
+            Panel_Faild.DOFade(1, 1f).SetEase(Ease.OutElastic).SetUpdate(true);
+            Panel_Faild.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic).SetUpdate(true);
         }
     }
 }
