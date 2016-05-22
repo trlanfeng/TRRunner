@@ -7,8 +7,7 @@ namespace TRRunner
     public class GenerateManager : MonoBehaviour
     {
         public List<Transform> objs;
-        private Transform objList;
-        Transform objPool;
+        public List<Transform> objPool;
 
         public float moveSpeed;
         public float startX;
@@ -21,9 +20,8 @@ namespace TRRunner
 
         void Start()
         {
-            objList = transform;
-            objPool = new GameObject(transform.name + "Pool").transform;
-            objPool.gameObject.SetActive(false);
+            generateTimer = 0;
+            objPool = new List<Transform>();
         }
         void Update()
         {
@@ -37,17 +35,21 @@ namespace TRRunner
             {
                 generateobj();
             }
-            for (int i = 0; i < objList.childCount; i++)
+            for (int i = 0; i < transform.childCount; i++)
             {
-                Vector3 t = objList.GetChild(i).position;
-                t.x -= moveDelta;
-                if (t.x < dieX)
+                if (transform.GetChild(i).gameObject.activeSelf)
                 {
-                    objList.GetChild(i).SetParent(objPool, false);
-                }
-                else
-                {
-                    objList.GetChild(i).position = t;
+                    Vector3 t = transform.GetChild(i).position;
+                    t.x -= moveDelta;
+                    if (t.x < dieX)
+                    {
+                        transform.GetChild(i).gameObject.SetActive(false);
+                        objPool.Add(transform.GetChild(i));
+                    }
+                    else
+                    {
+                        transform.GetChild(i).position = t;
+                    }
                 }
             }
         }
@@ -55,20 +57,22 @@ namespace TRRunner
         void generateobj()
         {
             Transform objTrans = null;
-            if (objPool.childCount > 0)
+            if (objPool.Count > 0)
             {
-                objTrans = objPool.GetChild(Random.Range(0, objPool.childCount - 1));
+                objTrans = objPool[Random.Range(0, objPool.Count - 1)];
+                objPool.Remove(objTrans);
             }
             else
             {
                 objTrans = Instantiate<GameObject>(objs[Random.Range(0, objs.Count)].gameObject).transform;
+                objTrans.SetParent(transform);
             }
             if (objTrans == null)
             {
                 return;
             }
-            setobjPosition(objTrans);
-            objTrans.SetParent(objList.transform, false);
+            setObjPosition(objTrans);
+            objTrans.gameObject.SetActive(true);
             generateTimer = Random.Range(timerRange.x, timerRange.y);
             timer = 0;
         }
@@ -79,13 +83,13 @@ namespace TRRunner
             return y;
         }
 
-        void setobjPosition(Transform trans)
+        void setObjPosition(Transform trans)
         {
             Vector3 t = trans.position;
             t.x = startX;
             t.y = rangeY();
             t.z = Random.Range(0f, 1f);
-            trans.position = t;
+            trans.localPosition = t;
         }
     }
 }

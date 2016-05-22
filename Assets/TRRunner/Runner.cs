@@ -32,6 +32,10 @@ namespace TRRunner
         /// </summary>
         public int jumpTimes = 0;
         /// <summary>
+        /// 影子的Transform
+        /// </summary>
+        public Transform shadow;
+        /// <summary>
         /// 角色状态，跑步、跳起、降落、二段跳
         /// </summary>
         public enum PlayerState
@@ -59,6 +63,7 @@ namespace TRRunner
 
         void Update()
         {
+            showShadow();
             stateCheck();
             checkCoolDown();
             Jump();
@@ -137,6 +142,18 @@ namespace TRRunner
             if (transform.position.x < -9.15f || transform.position.y < -5.35f)
             {
                 Debug.Log("GameOver");
+            }
+        }
+
+        RaycastHit2D hit2D;
+        void showShadow()
+        {
+            Debug.Log(LayerMask.NameToLayer("Ground"));
+            hit2D = Physics2D.Raycast(transform.position, Vector3.down, 10f, 1 << LayerMask.NameToLayer("Ground"));
+            if (hit2D && hit2D.collider != null)
+            {
+                Debug.Log("hit");
+                shadow.position = hit2D.point;
             }
         }
     }
