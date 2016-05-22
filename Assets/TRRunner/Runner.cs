@@ -57,7 +57,6 @@ namespace TRRunner
         void Start()
         {
             R2D = this.transform.GetComponent<Rigidbody2D>();
-            //animator = this.transform.GetComponent<Animator>();
             SF = GetComponent<SpriteFrames>();
         }
 
@@ -75,11 +74,6 @@ namespace TRRunner
             {
                 playerState = PlayerState.JumpDown;
             }
-            else if (R2D.velocity.y == 0)
-            {
-                //playerState = PlayerState.Run;
-            }
-            //animator.SetInteger("jumpState", (int)playerState);
             SF.curClip = (int)playerState;
         }
 
@@ -148,11 +142,9 @@ namespace TRRunner
         RaycastHit2D hit2D;
         void showShadow()
         {
-            Debug.Log(LayerMask.NameToLayer("Ground"));
             hit2D = Physics2D.Raycast(transform.position, Vector3.down, 10f, 1 << LayerMask.NameToLayer("Ground"));
             if (hit2D && hit2D.collider != null)
             {
-                Debug.Log("hit");
                 shadow.position = hit2D.point;
             }
         }

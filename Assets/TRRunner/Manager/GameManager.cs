@@ -1,18 +1,51 @@
 ﻿using UnityEngine;
-using System.Collections;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
-
-    // Use this for initialization
+    enum GameState
+    {
+        Normal,
+        Faild,
+        Success
+    }
+    GameState gameState = GameState.Normal;
+    public Transform player;
+    public float dieX;
+    public CanvasGroup Panel_Success;
+    public CanvasGroup Panel_Faild;
     void Start()
     {
-
+        gameState = GameState.Normal;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (player.position.x < dieX && gameState == GameState.Normal)
+        {
+            Time.timeScale = 0;
+            showUI(-1);
+            gameState = GameState.Faild;
+        }
+    }
 
+    void hideUI()
+    {
+        Panel_Success.DOFade(0, 1f).SetEase(Ease.OutElastic);
+        Panel_Faild.DOFade(0, 1f).SetEase(Ease.OutElastic).SetUpdate(true);
+    }
+
+    void showUI(int type)
+    {
+        if (type == 1)
+        {
+            Panel_Success.DOFade(1, 1f).SetEase(Ease.OutElastic);
+            Panel_Success.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic);
+        }
+        else if (type == -1)
+        {
+            Panel_Faild.DOFade(1, 1f).SetEase(Ease.OutElastic);
+            Panel_Faild.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutElastic);
+        }
     }
 }
