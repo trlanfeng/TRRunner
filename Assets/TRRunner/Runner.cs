@@ -65,7 +65,10 @@ namespace TRRunner
             showShadow();
             stateCheck();
             checkCoolDown();
-            Jump();
+            //if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
+            //{
+            //    Jump();
+            //}
         }
 
         void stateCheck()
@@ -77,9 +80,9 @@ namespace TRRunner
             SF.curClip = (int)playerState;
         }
 
-        void Jump()
+        public void Jump()
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isOnGround)
+            if (isOnGround)
             {
                 playerState = PlayerState.JumpUp;
                 R2D.AddForce(Vector2.up * JumpForce);
@@ -88,7 +91,7 @@ namespace TRRunner
                 jumpTimes++;
                 return;
             }
-            else if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && jumpTimes < 2)
+            else if (jumpTimes < 2)
             {
                 playerState = PlayerState.JumpTwice;
                 R2D.velocity = Vector3.zero;
