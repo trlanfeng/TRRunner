@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using DG.Tweening;
 namespace TRRunner
 {
     /// <summary>
@@ -64,7 +64,7 @@ namespace TRRunner
         {
             showShadow();
             stateCheck();
-            checkCoolDown();
+            checkJumpCoolDown();
             //if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
             //{
             //    Jump();
@@ -102,7 +102,7 @@ namespace TRRunner
             }
         }
 
-        void checkCoolDown()
+        void checkJumpCoolDown()
         {
             if (coolDownTimer <= CooldownBetweenJumps && coolDownTimer >= 0)
             {
@@ -113,6 +113,16 @@ namespace TRRunner
             {
                 isCoolDown = true;
             }
+        }
+
+        public void Rush()
+        {
+            transform.DOMoveX(-1.25f, 0.5f);
+        }
+
+        void checkRushCoolDown()
+        {
+
         }
 
         void OnCollisionEnter2D(Collision2D collision)
