@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     GameState gameState = GameState.Normal;
     public Transform player;
     public float dieX;
+    public float dieY;
     public CanvasGroup Panel_Success;
     public CanvasGroup Panel_Faild;
     void Start()
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (player.position.x < dieX && gameState == GameState.Normal)
+        if ((player.position.x < dieX || player.position.y < dieY) && gameState == GameState.Normal)
         {
             Time.timeScale = 0;
             showUI(-1);

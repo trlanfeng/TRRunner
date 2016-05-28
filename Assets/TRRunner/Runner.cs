@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 namespace TRRunner
 {
@@ -18,15 +19,15 @@ namespace TRRunner
         /// <summary>
         /// 两次跳跃之间的冷却时间
         /// </summary>
-        public float CooldownBetweenJumps = 0.5f;
+        public float CooldownBetweenJump = 0.5f;
+        /// <summary>
+        /// 两次冲刺的冷却时间
+        /// </summary>
+        public float CooldownBetweenRush = 10f;
         /// <summary>
         /// 是否仅可以在地面时跳跃
         /// </summary>
         public bool JustCanJumpOnGround = true;
-        /// <summary>
-        /// 动画控制器
-        /// </summary>
-        public Animator animator;
         /// <summary>
         /// 已跳跃次数
         /// </summary>
@@ -35,6 +36,14 @@ namespace TRRunner
         /// 影子的Transform
         /// </summary>
         public Transform shadow;
+        /// <summary>
+        /// 跳跃按钮的这招
+        /// </summary>
+        public Image jumpButtonMask;
+        /// <summary>
+        /// 冲刺按钮的遮罩
+        /// </summary>
+        public Image rushButtonMask;
         /// <summary>
         /// 角色状态，跑步、跳起、降落、二段跳
         /// </summary>
@@ -48,8 +57,10 @@ namespace TRRunner
         public PlayerState playerState = PlayerState.Run;
 
         public bool isOnGround = false;
-        public bool isCoolDown = false;
-        public float coolDownTimer = 0;
+        public bool isJumpCoolDown = true;
+        public bool isRushCoolDown = true;
+        public float jumpCoolDownTimer = 0;
+        public float rushCoolDownTimer = 0;
 
         private Rigidbody2D R2D;
         private SpriteFrames SF;
@@ -65,6 +76,7 @@ namespace TRRunner
             showShadow();
             stateCheck();
             checkJumpCoolDown();
+            checkRushCoolDown();
             //if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)))
             //{
             //    Jump();
@@ -82,12 +94,16 @@ namespace TRRunner
 
         public void Jump()
         {
+            if (!isJumpCoolDown)
+            {
+                return;
+            }
             if (isOnGround)
             {
                 playerState = PlayerState.JumpUp;
                 R2D.AddForce(Vector2.up * JumpForce);
                 transform.GetComponent<AudioSource>().Play();
-                coolDownTimer = 0;
+                jumpCoolDownTimer = CooldownBetweenJump;
                 jumpTimes++;
                 return;
             }
@@ -104,25 +120,42 @@ namespace TRRunner
 
         void checkJumpCoolDown()
         {
-            if (coolDownTimer <= CooldownBetweenJumps && coolDownTimer >= 0)
+            //if (jumpCoolDownTimer > 0)
+            //{
+            //    jumpCoolDownTimer -= Time.deltaTime;
+            //    isJumpCoolDown = false;
+            //    jumpButtonMask.fillAmount = jumpCoolDownTimer / CooldownBetweenJump;
+            //}
+            //else
             {
-                coolDownTimer += Time.deltaTime;
-                isCoolDown = false;
-            }
-            else
-            {
-                isCoolDown = true;
+                isJumpCoolDown = true;
+                jumpCoolDownTimer = 0;
             }
         }
 
         public void Rush()
         {
+            if (!isRushCoolDown)
+            {
+                return;
+            }
             transform.DOMoveX(-1.25f, 0.5f);
+            rushCoolDownTimer = CooldownBetweenRush;
         }
 
         void checkRushCoolDown()
         {
-
+            if (rushCoolDownTimer > 0)
+            {
+                rushCoolDownTimer -= Time.deltaTime;
+                isRushCoolDown = false;
+                rushButtonMask.fillAmount = rushCoolDownTimer / CooldownBetweenRush;
+            }
+            else
+            {
+                isRushCoolDown = true;
+                rushCoolDownTimer = 0;
+            }
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -155,7 +188,7 @@ namespace TRRunner
         RaycastHit2D hit2D;
         void showShadow()
         {
-            hit2D = Physics2D.Raycast(transform.position, Vector3.down, 10f, 1 << LayerMask.NameToLayer("Ground"));
+            hit2D = Physics2D.Raycast(transform.position, Vector3.down, 10f, 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Barricades"));
             if (hit2D && hit2D.collider != null)
             {
                 shadow.position = hit2D.point;

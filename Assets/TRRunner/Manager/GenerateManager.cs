@@ -9,6 +9,7 @@ namespace TRRunner
         public List<Transform> objs;
         public List<Transform> objPool;
 
+        public bool useSelfSpeed;
         public float moveSpeed;
         public float startX;
         public float dieX;
@@ -17,11 +18,16 @@ namespace TRRunner
 
         private float timer;
         private float generateTimer;
+        public float baseGenerateTime;
 
         void Start()
         {
             generateTimer = 0;
             objPool = new List<Transform>();
+            if (baseGenerateTime == 0)
+            {
+                baseGenerateTime = 3;
+            }
         }
         void Update()
         {
@@ -29,9 +35,13 @@ namespace TRRunner
             {
                 return;
             }
+            if (!useSelfSpeed)
+            {
+                moveSpeed = Manager.GameSpeed;
+            }
             float moveDelta = moveSpeed * Time.deltaTime;
             timer += Time.deltaTime;
-            if (timer > generateTimer)
+            if (timer > generateTimer * (baseGenerateTime / moveSpeed))
             {
                 generateobj();
             }
